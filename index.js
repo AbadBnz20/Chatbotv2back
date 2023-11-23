@@ -16,9 +16,9 @@ app.use(express.static('public'));
 app.use(express.json());
 
 
-app.use('/api/chat', require('./routes/chat'));
+app.use('/api', require('./routes/chat'));
 app.use('/api',require('./routes/land'))
-
+app.use('/api',require('./routes/trainBot'));
 
 app.listen(process.env.PORT, ()=>{
     // console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
