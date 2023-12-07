@@ -22,7 +22,7 @@
     "express-session": "^1.17.3",
     "express-validator": "^6.15.0",
     "langchain": "^0.0.201",
-    "mongodb": "^6.3.0",
+    "mongodb": "5.2",
     "mongoose": "^8.0.0",
     "nodemon": "^2.0.21",
     "openai": "^4.19.1",
