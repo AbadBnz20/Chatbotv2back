@@ -63,13 +63,18 @@ const iniciarChat = async (req, res = response) => {
           callbacks: [
             {
               handleLLMNewToken: async (token) => {
-                cad += token;
-                if (token.includes("\n\n")) {
-                  console.log(cad);
-                  console.log('\n');
-                  message(cad, From);
-                  cad = "";
+                try {
+                  cad += token;
+                  if (token.includes("\n\n")) {
+                    console.log(cad);
+                    console.log('\n');
+                    message(cad, From);
+                    cad = "";
+                  }
+                } catch (error) {
+                  console.log("error al enviar mensaje")
                 }
+               
               },
             },
           ],
