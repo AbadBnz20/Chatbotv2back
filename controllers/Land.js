@@ -13,16 +13,12 @@ const RegisterLand = async (req, res = response) => {
             resp: "ok",
         })
     } catch (error) {
-
         res.status(400).json({
             resp: "ok",
             msg: "Error al ejecutar esta accion"
 
         })
     }
-
-
-
 }
 
 const GetLands = async (req, res = response) => {
