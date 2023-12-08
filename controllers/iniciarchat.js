@@ -66,8 +66,7 @@ const iniciarChat = async (req, res = response) => {
               handleLLMNewToken: (token) => {
                 cad += token;
                 if (token.includes("\n\n")) {
-                  console.log(cad);
-                  console.log("\n");
+                  // console.log(cad);
                   message(cad, From);
                   cad = "";
                 }
@@ -76,7 +75,7 @@ const iniciarChat = async (req, res = response) => {
           ],
         }
       );
-      console.log(cad);
+      console.log(res1);
       await message(cad, From);
     }
     res.status(200).json({

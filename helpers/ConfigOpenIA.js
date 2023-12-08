@@ -6,6 +6,7 @@ const ConfigOPenAI = new OpenAIChat({
     temperature: 0.2,
     maxTokens: 750,
     streaming: true,
+    maxRetries: 10
 });
 
 module.exports={ConfigOPenAI}
