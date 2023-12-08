@@ -9,7 +9,8 @@ const message= async(texto,numero)=>{
         from: 'whatsapp:+14155238886',
         to: numero
     })
-    .then(message => console.log(message.sid));
+    .then(message => console.log(message.sid))
+    .catch(error => console.error(console.log(error)));
 
 }
 module.exports = {

@@ -13,6 +13,10 @@ const { ConversationChain } = require("langchain/chains");
 
 const User = require("../models/User");
 
+const client = new MongoClient(process.env.DB_CNN_LANGCHAIN || "");
+const collection = client.db("ChatBotDataBase").collection("MemoryChat");
+client.connect();
+
 const iniciarChat = async (req, res = response) => {
   try {
     const { Body, WaId, From, ProfileName } = req.body;
@@ -32,9 +36,6 @@ const iniciarChat = async (req, res = response) => {
     } else {
       const TextEmbedding = await toEmbeddings(Body);
       const objvector = await ExtracObjVector(TextEmbedding);
-      const client = new MongoClient(process.env.DB_CNN_LANGCHAIN || "");
-      const collection = client.db("ChatBotDataBase").collection("MemoryChat");
-      await client.connect();
       const sessionId = !user.MessageID
         ? new ObjectId().toString()
         : user.MessageID;
@@ -62,19 +63,14 @@ const iniciarChat = async (req, res = response) => {
         {
           callbacks: [
             {
-              handleLLMNewToken: async (token) => {
-                try {
-                  cad += token;
-                  if (token.includes("\n\n")) {
-                    console.log(cad);
-                    console.log('\n');
-                    message(cad, From);
-                    cad = "";
-                  }
-                } catch (error) {
-                  console.log("error al enviar mensaje")
+              handleLLMNewToken: (token) => {
+                cad += token;
+                if (token.includes("\n\n")) {
+                  console.log(cad);
+                  console.log("\n");
+                  message(cad, From);
+                  cad = "";
                 }
-               
               },
             },
           ],
