@@ -2,25 +2,17 @@
 const { PineConeIndex } = require('./ConfigPineCone');
 const OpenAIApi = require('openai');
 const EmbeddingsData = async (data) => {
-
-
-    await Promise.all(
-        data.map(async item => {
-            const embeddingResponse = await toEmbeddings(item.content);
-            const obj = item.content;
-            const objectToSave = {
-                id: item.id + '',
-                metadata: {
-                    obj,
-                },
-                values: embeddingResponse
-            }
-            await PineConeIndex.upsert([objectToSave]);
-
-        })
-    );
-
-
+    const embeddingResponse = await toEmbeddings(data.content);
+    const obj = data.content;
+    const objectToSave = {
+        id: data.id + '',
+        metadata: {
+            obj,
+        },
+        values: embeddingResponse
+    }
+    await PineConeIndex.upsert([objectToSave]);
+   
 }
 
 const toEmbeddings = async (text) => {

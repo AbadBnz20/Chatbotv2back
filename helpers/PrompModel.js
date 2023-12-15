@@ -2,7 +2,7 @@ const { PromptTemplate } = require('langchain/prompts');
 
 const PromptTemplateBase = (content) => {
     const _DEFAULT_TEMPLATE = `
-    You are an AI that will help people find land/lots in Tarija. Be friendly and conversational. and Respond in list format.
+    You are an AI that will help people find land/lots in Tarija. Be friendly and conversational.
      All the information you will respond will be based on this context: ${content}.
 
 

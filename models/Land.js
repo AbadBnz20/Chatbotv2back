@@ -7,14 +7,11 @@ const LandSchema= Schema({
     Barrio_Zona:String,
     Papeles:String,
     Departamento:String,
-    Imagen_terreno:String,
-    Servicos_basicos:String,
-    Condition:{
-        type: String,
-        required: true,
-        default: 'New',
-        emun: ['Old', 'New']
+    Imagen_terreno:{
+         Url:String,
+         Public_id:String
     },
+    Servicios_basicos:String,
     State:{
         type: Boolean,
         default: true

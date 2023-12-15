@@ -8,6 +8,10 @@ const TrainBot = async (req, res = response) => {
     const result = await TrainbotData();
     
    const Embeddings = await EmbeddingsData(result);
+
+
+
+   
     res.status(200).json({
         ok: true,
         msg:'correctamente'

@@ -58,6 +58,7 @@ const iniciarChat = async (req, res = response) => {
         prompt: PromptTemplateBase(objvector),
       });
       let cad = "";
+      //probar con promesas
       const res1 = await chain.call(
         { input: Body },
         {
