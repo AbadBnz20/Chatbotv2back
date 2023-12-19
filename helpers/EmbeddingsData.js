@@ -2,6 +2,7 @@
 const { PineConeIndex } = require('./ConfigPineCone');
 const OpenAIApi = require('openai');
 const EmbeddingsData = async (data) => {
+   
     const embeddingResponse = await toEmbeddings(data.content);
     const obj = data.content;
     const objectToSave = {
@@ -24,6 +25,7 @@ const toEmbeddings = async (text) => {
         input: [`${text}`],
         model: "text-embedding-ada-002",
     });
+    
     return response.data[0].embedding
 }
 

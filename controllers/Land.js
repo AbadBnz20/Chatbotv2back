@@ -60,14 +60,12 @@ const RegisterLand = async (req, res = response) => {
       id: land._id.toString(),
       content: `Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
     };
-       await EmbeddingsData(ObjetLand);
-
+    await EmbeddingsData(ObjetLand);
 
     res.json({
       resp: "ok",
       land,
     });
-
   } catch (error) {
     console.log(error);
     res.status(400).json({

@@ -26,6 +26,7 @@ app.use('/api',require('./routes/trainBot'));
 app.use('/api',require('./routes/administrator'));
 app.use('/api',require('./routes/auth'));
 app.use('/api',require('./routes/information'));
+app.use('/api',require('./routes/home'));
 
 
 
