@@ -1,7 +1,7 @@
 const express = require("express");
 const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validardatos");
-const { RegisterHome } = require("../controllers/Home");
+const { RegisterHome, DeleteHome } = require("../controllers/Home");
 const router = express.Router();
 router.post(
   "/home",
@@ -21,5 +21,5 @@ router.post(
   ],
   RegisterHome
 );
-// router.get('/home',RegisterHome);
+router.delete('/home/:id',DeleteHome);
 module.exports = router;

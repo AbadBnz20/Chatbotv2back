@@ -16,6 +16,11 @@ const EmbeddingsData = async (data) => {
    
 }
 
+const EmbeddingsDataDelete = async (id) => {
+    await PineConeIndex.deleteOne(id);
+}
+
+
 const toEmbeddings = async (text) => {
     const openai = new OpenAIApi({
         apiKey: process.env.OPENAI_API_KEY,
@@ -31,5 +36,6 @@ const toEmbeddings = async (text) => {
 
 module.exports = {
     EmbeddingsData,
+    EmbeddingsDataDelete,
     toEmbeddings
 }
