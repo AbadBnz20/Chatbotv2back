@@ -1,7 +1,10 @@
 const { response } = require("express");
 const { uplodadCloudinary } = require("../helpers/SubmitFile");
 const Home = require("../models/Home");
-const { EmbeddingsData, EmbeddingsDataDelete } = require("../helpers/EmbeddingsData");
+const {
+  EmbeddingsData,
+  EmbeddingsDataDelete,
+} = require("../helpers/EmbeddingsData");
 
 const RegisterHome = async (req, res = response) => {
   const {
@@ -36,6 +39,7 @@ const RegisterHome = async (req, res = response) => {
     home.Imagen_Casa.Url = image.url;
     home.Imagen_Casa.Public_id = image.public_id;
     await home.save();
+    console.log("asfas");
     const ObjetHome = {
       id: home._id.toString(),
       content: `Tipo:${home.Tipo},Precio:${home.Precio},Superficie_M2:${home.Superficie_m2},M2_Contruidos:${home.m2_Contruidos}, Ubicacion: ${home.Ubicacion}, Barrio/Zona: ${home.Barrio_Zona}, Papeles: ${home.Papeles}, Departamento: ${home.Departamento}, Imagen del terreno: ${home.Imagen_Casa.Url},Descripcion: ${home.Descripcion}`,
@@ -55,9 +59,8 @@ const RegisterHome = async (req, res = response) => {
   }
 };
 
-
-const DeleteHome= async (req,res= response)=>{
-  const {id}= req.params;
+const DeleteHome = async (req, res = response) => {
+  const { id } = req.params;
   try {
     const home = await Home.findByIdAndUpdate(
       id,
@@ -76,12 +79,9 @@ const DeleteHome= async (req,res= response)=>{
       msg: "Ha ocurrido un error al realizar esta operacion",
     });
   }
-      
-
-  
-}
+};
 
 module.exports = {
   RegisterHome,
-  DeleteHome
+  DeleteHome,
 };

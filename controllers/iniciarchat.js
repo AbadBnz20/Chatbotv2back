@@ -10,8 +10,8 @@ const {
   MongoDBChatMessageHistory,
 } = require("langchain/stores/message/mongodb");
 const { ConversationChain } = require("langchain/chains");
-
 const User = require("../models/User");
+const { default: Bottleneck } = require("bottleneck");
 
 const client = new MongoClient(process.env.DB_CNN_LANGCHAIN || "");
 const collection = client.db("ChatBotDataBase").collection("MemoryChat");
@@ -20,6 +20,8 @@ client.connect();
 const iniciarChat = async (req, res = response) => {
   try {
     const { Body, WaId, From, ProfileName } = req.body;
+    // const { Body, WaId } = req.body;
+
     // console.log(req.body);
     const user = await User.findOne({ Phone: WaId });
     // console.log(user);
@@ -36,6 +38,7 @@ const iniciarChat = async (req, res = response) => {
     } else {
       const TextEmbedding = await toEmbeddings(Body);
       const objvector = await ExtracObjVector(TextEmbedding);
+      // console.log(objvector);
       const sessionId = !user.MessageID
         ? new ObjectId().toString()
         : user.MessageID;
@@ -51,33 +54,87 @@ const iniciarChat = async (req, res = response) => {
           sessionId,
         }),
       });
-
+      // console.log(objvector);
       const chain = new ConversationChain({
         llm: ConfigOPenAI,
         memory,
         prompt: PromptTemplateBase(objvector),
       });
-      let cad = "";
-      //probar con promesas
-      const res1 = await chain.call(
-        { input: Body },
-        {
-          callbacks: [
+      // await new Promise(async (resolve, reject) => {
+      //   let cad = "";
+      //   try {
+      //     await chain.call(
+      //       { input: Body },
+      //       {
+      //         callbacks: [
+      //           {
+      //              handleLLMNewToken: async (token) => {
+      //               // console.log(token);
+      //               // process.stdout.write(token);
+      //               cad += token;
+      //               if (token.includes("\n\n")) {
+      //                 console.log(cad);
+
+      //                 // message(cad, From);
+      //                 cad = "";
+      //               }
+
+      //             },
+      //           },
+      //         ],
+      //       }
+      //     );
+      //     resolve(cad);
+      //   } catch (error) {
+      //     reject(error);
+      //   }
+      // })
+      // .then((val)=>console.log(val))
+      // .catch(() => console.log("error al enviar los mensajes"));
+
+      const limiter = new Bottleneck({
+        maxConcurrent: 1,
+        minTime: 100,
+      });
+
+      const type = (text) => {
+        return new Promise((resolve) => {
+          message(text, From);
+          resolve();
+        });
+      };
+      const wrappedType = limiter.wrap(type);
+      new Promise(async (resolve, reject) => {
+        let cad = "";
+        try {
+          await chain.call(
+            { input: Body },
             {
-              handleLLMNewToken: (token) => {
-                cad += token;
-                if (token.includes("\n\n")) {
-                  // console.log(cad);
-                  message(cad, From);
-                  cad = "";
-                }
-              },
-            },
-          ],
+              callbacks: [
+                {
+                  handleLLMNewToken: async (token) => {
+                    cad += token;
+                    if (token.includes("\n\n")) {
+                      wrappedType(cad);
+                      cad = "";
+                    }
+                  },
+                },
+              ],
+            }
+          );
+          resolve(cad);
+        } catch (error) {
+          reject(error);
         }
-      );
-      console.log(res1);
-      await message(cad, From);
+      })
+        .then(async (val) => {
+          // console.log(val),
+          await wrappedType(val);
+        })
+        .catch(() => console.log("error al enviar los mensajes"));
+
+      // await message(cad, From);
     }
     res.status(200).json({
       ok: true,
@@ -90,6 +147,7 @@ const iniciarChat = async (req, res = response) => {
     });
   }
 };
+
 module.exports = {
   iniciarChat,
 };

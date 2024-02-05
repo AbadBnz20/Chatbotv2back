@@ -7,7 +7,7 @@ const ExtracObjVector= async (TextEmbedding)=>{
         includeMetadata: true,
         includeValues: true
     })
-    const content = result.matches.map(match => match.metadata.obj).join('. ');
+    const content = result.matches.map(match => match.metadata.obj).join('| ');
     return content;
 }
 
