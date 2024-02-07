@@ -19,8 +19,8 @@ client.connect();
 
 const iniciarChat = async (req, res = response) => {
   try {
-    // const { Body, WaId, From, ProfileName } = req.body;
-    const { Body, WaId } = req.body;
+    const { Body, WaId, From, ProfileName } = req.body;
+    // const { Body, WaId } = req.body;
 
     // console.log(req.body);
     const user = await User.findOne({ Phone: WaId });
@@ -141,7 +141,7 @@ const iniciarChat = async (req, res = response) => {
           // console.log(val),
           await wrappedType(val);
         })
-        .catch(() => console.log("error al enviar los mensajes"));
+        .catch((e) => console.log('error al envia mensaje'));
 
       // await message(cad, From);
     }
