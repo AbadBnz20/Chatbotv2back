@@ -99,15 +99,15 @@ const iniciarChat = async (req, res = response) => {
 
       const type = (text) => {
         return new Promise((resolve) => {
-          // message(text, From);
           const patronCloudinary = /https?:\/\/(?:www\.)?res\.cloudinary\.com\/\S+/g;
-
+          
           // Buscar todos los enlaces de Cloudinary en el mensaje
           const enlacesCloudinary = text.match(patronCloudinary);
           const enlacesFiltrados = enlacesCloudinary.map(enlace => enlace.split(/[)\]]/)[0]);
-
+          
           console.log(enlacesFiltrados);
           console.log(text);
+          message(text, From);
 
           resolve();
         });
