@@ -49,7 +49,8 @@ const RegisterLand = async (req, res = response) => {
         resp: "No se ha proporcionado una imagen",
       });
     }
-    
+    // console.log(req.files.file);
+
     const image = await uplodadCloudinary(req.files.file, "LandImage");
 
     const land = new Land({
@@ -74,14 +75,11 @@ const RegisterLand = async (req, res = response) => {
       id: land._id.toString(),
       content: `Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
     };
-
-    const notification = await PrompNotificacion(ObjetLand.content,"Terreno/Lote");
-    console.log(notification)
-    // await EmbeddingsData(ObjetLand);
+    await EmbeddingsData(ObjetLand);
 
     res.json({
       resp: "ok",
-      // land,
+      land,
     });
   } catch (error) {
     console.log(error);

@@ -19,8 +19,8 @@ client.connect();
 
 const iniciarChat = async (req, res = response) => {
   try {
-    const { Body, WaId, From, ProfileName } = req.body;
-    // const { Body, WaId } = req.body;
+    // const { Body, WaId, From, ProfileName } = req.body;
+    const { Body, WaId } = req.body;
 
     // console.log(req.body);
     const user = await User.findOne({ Phone: WaId });
@@ -99,7 +99,16 @@ const iniciarChat = async (req, res = response) => {
 
       const type = (text) => {
         return new Promise((resolve) => {
-          message(text, From);
+          // message(text, From);
+          const patronCloudinary = /https?:\/\/(?:www\.)?res\.cloudinary\.com\/\S+/g;
+
+          // Buscar todos los enlaces de Cloudinary en el mensaje
+          const enlacesCloudinary = text.match(patronCloudinary);
+          const enlacesFiltrados = enlacesCloudinary.map(enlace => enlace.split(/[)\]]/)[0]);
+
+          console.log(enlacesFiltrados);
+          console.log(text);
+
           resolve();
         });
       };
