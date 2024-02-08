@@ -20,8 +20,8 @@ client.connect();
 
 const iniciarChat = async (req, res = response) => {
   try {
-    // const { Body, WaId, From, ProfileName } = req.body;
-    const { Body, WaId } = req.body;
+    const { Body, WaId, From, ProfileName } = req.body;
+    // const { Body, WaId } = req.body;
 
     // console.log(req.body);
     const user = await User.findOne({ Phone: WaId });
@@ -105,10 +105,10 @@ const iniciarChat = async (req, res = response) => {
             /http:\/\/res\.cloudinary\.com\/[^\s]+/gi;
           url.forEach((item) => {
             if (item.value.match(cloudinaryUrlPattern)) {
-              messageFile("whatsapp:+59178230108", item.href);
+              messageFile(From, item.href);
             }
           });
-          message(text, "whatsapp:+59178230108");
+          message(text, From);
 
           resolve();
         });
