@@ -12,6 +12,7 @@ router.post(
     check("Ubicacion", "La Ubicaion es obligatoria").not().isEmpty(),
     check("Barrio_Zona", "La Zona/Barrio es obligatorio").not().isEmpty(),
     check("Papeles", "Los Campo Papeles es obligatorio").not().isEmpty(),
+    check("Tipo", "Los Tipo Papeles es obligatorio").not().isEmpty(),
     check("Departamento", "El departamento es obligatorio").not().isEmpty(),
     check("Servicios_basicos", "Los servicios basicos son obligatorios")
       .not()
@@ -31,6 +32,7 @@ router.put(
     check("Ubicacion", "La Ubicaion es obligatoria").not().isEmpty(),
     check("Barrio_Zona", "La Zona/Barrio es obligatorio").not().isEmpty(),
     check("Papeles", "Los Campo Papeles es obligatorio").not().isEmpty(),
+    check("Tipo", "Los Tipo Papeles es obligatorio").not().isEmpty(),
     check("Departamento", "El departamento es obligatorio").not().isEmpty(),
     check("Servicios_basicos", "Los servicios basicos son obligatorios")
       .not()

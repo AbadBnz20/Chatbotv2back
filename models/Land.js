@@ -7,6 +7,7 @@ const LandSchema= Schema({
     Barrio_Zona:String,
     Papeles:String,
     Departamento:String,
+    Tipo:String,
     Imagen_terreno:{
          Url:String,
          Public_id:String

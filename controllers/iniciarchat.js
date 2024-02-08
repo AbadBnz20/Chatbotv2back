@@ -12,15 +12,16 @@ const {
 const { ConversationChain } = require("langchain/chains");
 const User = require("../models/User");
 const { default: Bottleneck } = require("bottleneck");
-
+const linkify = require("linkifyjs");
+const { messageFile } = require("../helpers/messagefile");
 const client = new MongoClient(process.env.DB_CNN_LANGCHAIN || "");
 const collection = client.db("ChatBotDataBase").collection("MemoryChat");
 client.connect();
 
 const iniciarChat = async (req, res = response) => {
   try {
-    const { Body, WaId, From, ProfileName } = req.body;
-    // const { Body, WaId } = req.body;
+    // const { Body, WaId, From, ProfileName } = req.body;
+    const { Body, WaId } = req.body;
 
     // console.log(req.body);
     const user = await User.findOne({ Phone: WaId });
@@ -99,15 +100,15 @@ const iniciarChat = async (req, res = response) => {
 
       const type = (text) => {
         return new Promise((resolve) => {
-          // const patronCloudinary = /https?:\/\/(?:www\.)?res\.cloudinary\.com\/\S+/g;
-          
-          // // Buscar todos los enlaces de Cloudinary en el mensaje
-          // const enlacesCloudinary = text.match(patronCloudinary);
-          // const enlacesFiltrados = enlacesCloudinary.map(enlace => enlace.split(/[)\]]/)[0]);
-          
-          // console.log(enlacesFiltrados);
-          // console.log(text);
-          message(text, From);
+          const url = linkify.find(text);
+          const cloudinaryUrlPattern =
+            /http:\/\/res\.cloudinary\.com\/[^\s]+/gi;
+          url.forEach((item) => {
+            if (item.value.match(cloudinaryUrlPattern)) {
+              messageFile("whatsapp:+59178230108", item.href);
+            }
+          });
+          message(text, "whatsapp:+59178230108");
 
           resolve();
         });
@@ -141,7 +142,7 @@ const iniciarChat = async (req, res = response) => {
           // console.log(val),
           await wrappedType(val);
         })
-        .catch((e) => console.log('error al envia mensaje'));
+        .catch((e) => console.log("error al envia mensaje"));
 
       // await message(cad, From);
     }

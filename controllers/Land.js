@@ -40,6 +40,7 @@ const RegisterLand = async (req, res = response) => {
     Barrio_Zona,
     Papeles,
     Departamento,
+    Tipo,
     Imagen_terreno,
     Servicios_basicos,
   } = req.body;
@@ -60,6 +61,7 @@ const RegisterLand = async (req, res = response) => {
       Ubicacion,
       Barrio_Zona,
       Papeles,
+      Tipo,
       Departamento,
       Imagen_terreno,
       Servicios_basicos,
@@ -73,7 +75,7 @@ const RegisterLand = async (req, res = response) => {
 
     const ObjetLand = {
       id: land._id.toString(),
-      content: `Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
+      content: `Tipo: ${land.Tipo}, Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
     };
     await EmbeddingsData(ObjetLand);
 
@@ -99,6 +101,7 @@ const UpdateLand = async (req, res = response) => {
     Ubicacion,
     Barrio_Zona,
     Papeles,
+    Tipo,
     Departamento,
     Servicios_basicos,
   } = req.body;
@@ -112,6 +115,7 @@ const UpdateLand = async (req, res = response) => {
         Ubicacion,
         Barrio_Zona,
         Papeles,
+        Tipo,
         Departamento,
         Servicios_basicos,
       },
@@ -119,7 +123,7 @@ const UpdateLand = async (req, res = response) => {
     );
     const ObjetLand = {
       id: land._id.toString(),
-      content: `Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
+      content: `Tipo:${land.Tipo}, Precio Cliente: ${land.Precio_cliente},Superficie M2: ${land.Superficie_m2}, Precio m2: ${land.Precio_m2}, Ubicacion: ${land.Ubicacion}, Barrio/Zona: ${land.Barrio_Zona}, Papeles: ${land.Papeles}, Departamento: ${land.Departamento}, Imagen del terreno: ${land.Imagen_terreno.Url}, Servicios Basicos: ${land.Servicios_basicos}`,
     };
     await EmbeddingsData(ObjetLand);
 
