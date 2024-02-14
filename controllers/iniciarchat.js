@@ -107,7 +107,6 @@ const iniciarChat = async (req, res = response) => {
             if (item.value.match(cloudinaryUrlPattern)) {
               text = text.replace(`(${item.href})`, "");
               messageFile(From, item.href);
-          
             }
           });
           // console.log(text);
