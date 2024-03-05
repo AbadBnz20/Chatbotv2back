@@ -111,7 +111,6 @@ const iniciarChat = async (req, res = response) => {
           });
           // console.log(text);
           message(text, From);
-
           resolve();
         });
       };
