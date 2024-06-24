@@ -6,23 +6,20 @@ const UserSchema= Schema({
     Phone:{
         type:String
     },
-    Age:{
-        type:String,
-        default:null
-    },
-    Gender:{
-        type:String,
-        default:null
-    },
+   
     MessageID:{
         type:String,
         default:null
     },
     State:{
-        type: String,
-        default: 'Pending',
-        emun: ['Pending', 'Verified']
+        type: Boolean,
+        default: true,
+       
     },
+    Register:{
+        type:Date,
+        default:new Date(),
+    }
 
 });
 
