@@ -18,7 +18,7 @@ const UserSchema= Schema({
     },
     Register:{
         type:Date,
-        default:new Date(),
+        default:Date.now,
     }
 
 });
