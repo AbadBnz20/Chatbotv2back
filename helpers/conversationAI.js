@@ -1,8 +1,8 @@
 const { default: Bottleneck } = require("bottleneck");
 const { default: OpenAI } = require("openai");
 const { message } = require("./sendmessage");
-const History = require("../models/History");
 const { FormatSend } = require("./formatsend");
+const { RegisterMessage, ExtractImages } = require("./Functionsaux");
 
 const Conversation = async (body, user, From) => {
   try {
@@ -21,8 +21,8 @@ const Conversation = async (body, user, From) => {
 
     const type = (text) => {
       text = text.replace(/【.*?】/g, "");
-      // FormatSend(text,From);
-      message(text,From);
+      FormatSend(text, From);
+      // message(text,From);
     };
     const wrappedType = limiter.wrap(type);
     await openai.beta.threads.runs
@@ -37,19 +37,16 @@ const Conversation = async (body, user, From) => {
         }
       })
       .on("textDone", async (content, snapshot) => {
-        const obj = [
-          { type: "human", data: body },
-          { type: "AI", data: content.value },
-        ];
-        await History.findOneAndUpdate(
-          { ThreadId: thread },
-          { $push: { messages: obj } }
-        );
+        await Promise.all([
+          RegisterMessage(body, content.value, thread),
+          ExtractImages(content.value, From),
+        ]);
       })
       .on("end", () => {
         wrappedType(cad);
       });
   } catch (error) {
+    console.log(error);
     throw new Error("Error al iniciar la conversacion");
   }
 };

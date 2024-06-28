@@ -7,6 +7,7 @@ const message= async(texto,numero)=>{
     .create({
         body:texto,
         from: 'whatsapp:+59178220469',
+    //   from: "whatsapp:+14155238886",
         to: numero
     })
     .then(message => console.log(message.sid))

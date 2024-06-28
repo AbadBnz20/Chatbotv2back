@@ -1,21 +1,23 @@
 const { message } = require("./sendmessage");
 const { messageFile } = require("./sendmessagefile");
 
+const FormatSend = async (text, From) => {
+  const regex = /https:\/\/res\.cloudinary\.com\/[^\s)]+/;
+  const removeCloudinaryUrls = (text) => {
+    const lines = text.split("\n");
+    const filteredLines = lines.filter((line) => {
+      const match = regex.test(line.trim());
+      return !match;
+    });
+    return filteredLines.join("\n");
+  };
+  const result = removeCloudinaryUrls(text);
+  // console.log(result);
+  if (result) {
+    message(result, From);
+  }
+};
 
-
-const FormatSend = async (text,From)=>{
-    const regex = /https:\/\/res\.cloudinary\.com\/[^\s)]+/g;
-    const firebaseStorageRegex = /https:\/\/firebasestorage\.googleapis\.com\/[^\s)]+/g;
-    const matches = text.match(regex);
-    console.log(matches);
-    if (matches != null) {
-        messageFile(From,matches[0],text);
-    }else {
-        message(text, From);
-    }
-}
-
-
-module.exports={
-    FormatSend
-}
+module.exports = {
+  FormatSend,
+};
