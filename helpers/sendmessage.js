@@ -6,8 +6,7 @@ const message= async(texto,numero)=>{
     await client.messages
     .create({
         body:texto,
-        from: 'whatsapp:+59178220469',
-    //   from: "whatsapp:+14155238886",
+        from: `whatsapp:${process.env.TWILIO_NUMBER}`,
         to: numero
     })
     .then(message => console.log(message.sid))

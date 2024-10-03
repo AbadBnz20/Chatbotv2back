@@ -1,33 +1,53 @@
 const History = require("../models/History");
+const { message } = require("./sendmessage");
 const { messageFile } = require("./sendmessagefile");
 
-const RegisterMessage = async (body, text, thread) => {
-  const obj = [
-    { type: "human", data: body },
-    { type: "AI", data: text },
-  ];
-  await History.findOneAndUpdate(
-    { ThreadId: thread },
-    { $push: { messages: obj } }
-  );
-};
-
-const ExtractImages = async (text, From) => {
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-  const regex = /https:\/\/res\.cloudinary\.com\/[^\s)]+/g;
-  const matches = text.match(regex);
-  if (matches !== null) {
-    for (const url of matches) {
-      try {
-        await messageFile(From, url); 
-      } catch (error) {
+const SendMessage = async (obj, From) => {
+  await message(obj.response, From);
+  if (obj.property.length > 0) {
+    for (const i of obj.property) {
+      const cad = `- *Precio*: ${i.Precio},
+     - *Superficie m²*: ${i.Superficie_m2},
+     - *m² Contruidos*: ${i.m2_Contruidos},
+     - *Ubicación*: ${i.Ubicacion},
+     - *Barrio/Zona*: ${i.Barrio_Zona},
+     - *Papeles*: ${i.Papeles},
+     - *Departamento*: ${i.Departamento},
+     - *Descripción*: ${i.Descripcion}
+     - *Tipo*: ${i.Tipo}`;
+      await message(cad, From);
+      if (i.Imagenes.length > 0) {
+        await SendImages(i.Imagenes, From);
       }
-      await delay(1000); 
     }
   }
 };
 
+const SendImages = async (urls, From) => {
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  for (const url of urls) {
+    await messageFile(From, url);
+    await delay(1000);
+  }
+};
+
+
+
+
+// const limiter = new Bottleneck({
+//   maxConcurrent: 1,
+//   minTime: 100,
+// });
+
+// const type = (text) => {
+//   text = text.replace(/【.*?】/g, "");
+//   FormatSend(text, From);
+//   // message(text,From);
+// };
+// const wrappedType = limiter.wrap(type);
+
 module.exports = {
-  RegisterMessage,
-  ExtractImages,
+  SendMessage,
+  SendImages,
 };

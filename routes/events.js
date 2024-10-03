@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: false }));
 // obtener eventos
-router.post('/init', InitChat)
+router.post('/chat', InitChat)
 
 
 

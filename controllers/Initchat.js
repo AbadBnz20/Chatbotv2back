@@ -1,26 +1,20 @@
 const { response } = require("express");
 const { default: OpenAI } = require("openai");
 const User = require("../models/User");
+const { ObjectId } = require("mongodb");
 const { message } = require("../helpers/sendmessage");
 const { Conversation } = require("../helpers/conversationAI");
 const History = require("../models/History");
 const InitChat = async (req, res = response) => {
   const { ProfileName, WaId, From, Body } = req.body;
-  try {
+   try {
     let user = await User.findOne({ Phone: WaId });
-
     if (!user) {
-     
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const threadid = await openai.beta.threads.create();
-      const history = new History({
-        ThreadId: threadid.id,
-        messages: [],
-      });
+      const conversation =  new ObjectId().toString();
       user = new User({
         Name: ProfileName,
         Phone: WaId,
-        MessageID:threadid.id
+        MessageID:conversation
       });
       await Promise.all([
          message(
@@ -28,15 +22,13 @@ const InitChat = async (req, res = response) => {
           From
         ),
         user.save(),
-        history.save(),
+       
       ]);
     } else {
-      await Conversation(Body, user, From);
+      await Conversation(Body,user,From);
     }
-
-    res.json({
-      status: "success",
-    });
+    
+  
   } catch (error) {
     console.log(error);
     await message(
@@ -44,6 +36,9 @@ const InitChat = async (req, res = response) => {
       From
     )
   }
+  res.json({
+    status: "success",
+  });
 };
 
 module.exports = InitChat;

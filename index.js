@@ -13,6 +13,8 @@ app.use(express.static('public'))
 app.use(express.json());
 //Rutas
 app.use('/api', require('./routes/events'));
+app.use('/api', require('./routes/estate'));
+
 //Crud :eventos
 
 // escuchar la peticion
