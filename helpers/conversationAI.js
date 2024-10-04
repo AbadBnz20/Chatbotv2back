@@ -16,7 +16,7 @@ const Conversation = async (body, user, From) => {
     const collection = await MongoCLientConnect("histories");
     const memory = new BufferWindowMemory({
       returnMessages: true,
-      k: 4,
+      k: 7,
       chatHistory: new MongoDBChatMessageHistory({
         collection,
         sessionId,

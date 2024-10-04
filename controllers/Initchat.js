@@ -22,7 +22,6 @@ const InitChat = async (req, res = response) => {
           From
         ),
         user.save(),
-       
       ]);
     } else {
       await Conversation(Body,user,From);

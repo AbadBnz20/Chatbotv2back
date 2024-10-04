@@ -6,15 +6,15 @@ const SendMessage = async (obj, From) => {
   await message(obj.response, From);
   if (obj.property.length > 0) {
     for (const i of obj.property) {
-      const cad = `- *Precio*: ${i.Precio},
-     - *Superficie m²*: ${i.Superficie_m2},
-     - *m² Contruidos*: ${i.m2_Contruidos},
-     - *Ubicación*: ${i.Ubicacion},
-     - *Barrio/Zona*: ${i.Barrio_Zona},
-     - *Papeles*: ${i.Papeles},
-     - *Departamento*: ${i.Departamento},
-     - *Descripción*: ${i.Descripcion}
-     - *Tipo*: ${i.Tipo}`;
+      const cad = `✅ *Precio*: ${i.Precio},
+     ✅ *Superficie m²*: ${i.Superficie_m2},
+     ✅ *m² Contruidos*: ${i.m2_Contruidos},
+     ✅ *Ubicación*: ${i.Ubicacion},
+     ✅ *Barrio/Zona*: ${i.Barrio_Zona},
+     ✅ *Papeles*: ${i.Papeles},
+     ✅ *Departamento*: ${i.Departamento},
+     ✅ *Descripción*: ${i.Descripcion}
+     ✅ *Tipo*: ${i.Tipo}`;
       await message(cad, From);
       if (i.Imagenes.length > 0) {
         await SendImages(i.Imagenes, From);
